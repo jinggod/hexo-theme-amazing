@@ -48,10 +48,6 @@ class Footer extends Component {
                             {logo && logo.text ? logo.text : <img src={logoUrl} alt={siteTitle} height="28" />}
                         </a>
                         <p class="size-small">
-                            <span dangerouslySetInnerHTML={{ __html: `&copy; ${siteYear} ${author || siteTitle}` }}></span>
-                            &nbsp;&nbsp;Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
-                                href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>,Modify by <a href="https://github.com/removeif/hexo-theme-amazing" target="_blank">removeif</a>&nbsp;
-                            <br />
                             {registeredNo ? <span>&copy; <a href="http://www.beian.miit.gov.cn/" target="_blank">{registeredNo}</a><br /></span> : null}
                             {footerCopyrightDsec ? <span dangerouslySetInnerHTML={{ __html: footerCopyrightDsec }}></span> : null}
                             {websiteStartTime ? <span>
@@ -62,38 +58,7 @@ class Footer extends Component {
                             {showVisitorCounter ? <div class="size-small"><span dangerouslySetInnerHTML={{ __html: visitorCounterTitle }}></span></div> : null}
                         </p>
                     </div>
-                    <div class="level-end">
-                        {Object.keys(links).length ? <div class="field has-addons">
-                            {Object.keys(links).map(name => {
-                                const link = links[name];
-                                return <p class="control">
-                                    <a class={`button is-transparent ${link.icon ? 'is-large' : ''}`} target="_blank" rel="noopener" title={name} href={link.url}>
-                                        {link.icon ? <i class={link.icon}></i> : name}
-                                    </a>
-                                </p>;
-                            })}
-                        </div> : null}
-                        {side_music_netease_id ?
-                            <div class="sideMusic">
-                                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" />
-                                <script src={my_cdn(url_for('/js/APlayer.min.js'))}></script>
-                                <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-                                <meting-js style="width: auto;height: 2000px;"
-                                    server="netease"
-                                    type="playlist"
-                                    id={side_music_netease_id}
-                                    theme="#2980b9"
-                                    loop="all"
-                                    autoplay="false"
-                                    order="list"
-                                    storageName="aplayer-setting"
-                                    lrctype="0"
-                                    list-max-height="400px"
-                                    fixed="true"
-                                >
-                                </meting-js>
-                            </div> : null}
-                    </div>
+   
                 </div>
             </div>
         </footer>;

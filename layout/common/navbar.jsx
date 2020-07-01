@@ -35,11 +35,23 @@ class Navbar extends Component {
                         {logo && logo.text ? logo.text : <img src={logoUrl} alt={siteTitle} height="28" />}
                     </a>
                 </div>
-                <div class="navbar-menu">
+                <div class="navbar-menu" style="overflow-x:visible">
                     {Object.keys(menu).length ? <div class="navbar-start">
                         {Object.keys(menu).map(name => {
-                            const item = menu[name];
-                            return <a class={classname({ 'navbar-item': true, 'is-active': item.active })} href={item.url}>{name}</a>;
+                            const item = menu[name]
+							if (Object.keys(item).length>2){
+								return <div class="navbar-item has-dropdown is-hoverable">
+							 <a class="navbar-link" href="/documentation/overview/start/">{name}</a>
+								 <div class="navbar-dropdown is-boxed">
+								 {Object.keys(item.menuItem).map( itname =>{
+									const itch = item.menuItem[itname]
+									return <a class={classname({ 'navbar-item': true, 'is-active': itch.active })} href={itch.url}>{itname}</a>;
+								 })}	
+								</div>
+								</div>;								
+							} else {
+								return <a class={classname({ 'navbar-item': true, 'is-active': item.active })} href={item.url}>{name}</a>;
+							}
                         })}
                     </div> : null}
                     <div class="navbar-end">
@@ -79,9 +91,28 @@ module.exports = cacheComponent(Navbar, 'common.navbar', props => {
     if (navbar && navbar.menu) {
         const pageUrl = typeof page.path !== 'undefined' ? url_for(page.path) : '';
         Object.keys(navbar.menu).forEach(name => {
-            const url = url_for(navbar.menu[name]);
-            const active = isSameLink(url, pageUrl);
-            menu[name] = { url, active };
+			const content = navbar.menu[name];
+			const menuItem = {};
+             if (typeof content !== 'string') {
+				var first = true;
+				var murl = '';
+				var mactive = false;
+                Object.keys(content).forEach(itname =>{
+					const url = url_for(content[itname]);
+					const active = isSameLink(url, pageUrl);
+					menuItem[itname] = {url,active};	
+					if(first){
+						murl = url;
+						mactive = active;
+						first = false;
+					}
+				});
+				menu[name] = {murl, mactive,menuItem};
+            } else {
+                const url = url_for(content);
+                const active = isSameLink(url, pageUrl);
+                menu[name] = {url, active};
+            }
         });
     }
 
@@ -89,7 +120,7 @@ module.exports = cacheComponent(Navbar, 'common.navbar', props => {
     if (navbar && navbar.links) {
         Object.keys(navbar.links).forEach(name => {
             const link = navbar.links[name];
-            links[name] = {
+            links[name] = {	
                 url: url_for(typeof link === 'string' ? link : link.url),
                 icon: link.icon
             };

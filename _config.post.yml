@@ -1,0 +1,63 @@
+# Sidebar widget configurations
+# http://ppoffice.github.io/hexo-theme-icarus/categories/Widgets/
+# 注释对应的节点，包括”-“一起注释掉，相应的widget不显示
+widgets:
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: toc
+    # Profile widget configurations     
+
+    # Recommendation links widget configurations
+    # Table of contents widget configurations
+#    -
+#        position: right
+#        type: latest_comment
+#    -
+#        # Where should the widget be placed, left sidebar or right sidebar
+#        position: left
+#        type: links
+#        # Names and URLs of the sites
+#        links:
+#            Hexo: 'https://hexo.io'
+#            Bulma: 'https://bulma.io'
+    # Recent posts widget configurations
+#    -
+        # Where should the widget be placed, left sidebar or right sidebar
+#        position: right
+#        type: recent_posts
+    # Categories widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: categories
+    # Tags widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: tags
+    # Google FeedBurner email subscription widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: subscribe_email
+        # Hint text under the email input
+        description: 输入邮箱开始订阅，更博后邮件通知！
+        # Feedburner ID
+        feedburner_id: removeifFeedsId
+    # Google AdSense unit configurations
+#    -
+#        # Where should the widget be placed, left sidebar or right sidebar
+#        position: left
+#        type: adsense
+#        # AdSense client ID
+#        client_id: ''
+#        # AdSense AD unit ID
+#        slot_id: ''
+#    - 
+        # position: right
+        # type: notice
+        # contents: 
+        #     1: 2019.8.15 <a href="https://github.com/removeif/hexo-theme-amazing" target="_blank">主题开源</a>
+        #     2: 2020.5.20 添加公告widget
+        #     3: 2020.5.21 公告测试
