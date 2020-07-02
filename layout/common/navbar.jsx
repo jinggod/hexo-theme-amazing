@@ -1,5 +1,5 @@
-const { Component, Fragment } = require('inferno');
-const { cacheComponent } = require('../util/cache');
+const {Component, Fragment} = require('inferno');
+const {cacheComponent} = require('../util/cache');
 const classname = require('../util/classname');
 
 function isSameLink(a, b) {
@@ -10,6 +10,7 @@ function isSameLink(a, b) {
         }
         return paths.join('/');
     }
+
     return santize(a) === santize(b);
 }
 
@@ -32,40 +33,44 @@ class Navbar extends Component {
             <div class="container">
                 <div class="navbar-brand justify-content-center">
                     <a class="navbar-item navbar-logo" href={siteUrl}>
-                        {logo && logo.text ? logo.text : <img src={logoUrl} alt={siteTitle} height="28" />}
+                        {logo && logo.text ? logo.text : <img src={logoUrl} alt={siteTitle} height="28"/>}
                     </a>
                 </div>
                 <div class="navbar-menu" style="overflow-x:visible">
                     {Object.keys(menu).length ? <div class="navbar-start">
                         {Object.keys(menu).map(name => {
                             const item = menu[name]
-							if (Object.keys(item).length>2){
-								return <div class="navbar-item has-dropdown is-hoverable">
-							 <a class="navbar-link" href="/documentation/overview/start/">{name}</a>
-								 <div class="navbar-dropdown is-boxed">
-								 {Object.keys(item.menuItem).map( itname =>{
-									const itch = item.menuItem[itname]
-									return <a class={classname({ 'navbar-item': true, 'is-active': itch.active })} href={itch.url}>{itname}</a>;
-								 })}	
-								</div>
-								</div>;								
-							} else {
-								return <a class={classname({ 'navbar-item': true, 'is-active': item.active })} href={item.url}>{name}</a>;
-							}
+                            if (Object.keys(item).length > 2) {
+                                return <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link" href="/documentation/overview/start/">{name}</a>
+                                    <div class="navbar-dropdown is-boxed">
+                                        {Object.keys(item.menuItem).map(itname => {
+                                            const itch = item.menuItem[itname]
+                                            return <a class={classname({'navbar-item': true, 'is-active': itch.active})}
+                                                      href={itch.url}>{itname}</a>;
+                                        })}
+                                    </div>
+                                </div>;
+                            } else {
+                                return <a class={classname({'navbar-item': true, 'is-active': item.active})}
+                                          href={item.url}>{name}</a>;
+                            }
                         })}
                     </div> : null}
                     <div class="navbar-end">
                         {Object.keys(links).length ? <Fragment>
                             {Object.keys(links).map(name => {
                                 const link = links[name];
-                                return <a class="navbar-item" target="_blank" rel="noopener" title={name} href={link.url}>
+                                return <a class="navbar-item" target="_blank" rel="noopener" title={name}
+                                          href={link.url}>
                                     {link.icon ? <i class={link.icon}></i> : name}
                                 </a>;
                             })}
                         </Fragment> : null}
-                        {showToc ? <a class="navbar-item is-hidden-tablet catalogue" title={tocTitle} href="javascript:;">
-                            <i class="fas fa-list-ul"></i>
-                        </a> : null}
+                        {showToc ?
+                            <a class="navbar-item is-hidden-tablet catalogue" title={tocTitle} href="javascript:;">
+                                <i class="fas fa-list-ul"></i>
+                            </a> : null}
                         {showSearch ? <a class="navbar-item search" title={searchTitle} href="javascript:;">
                             <i class="fas fa-search"></i>
                         </a> : null}
@@ -80,9 +85,9 @@ class Navbar extends Component {
 }
 
 module.exports = cacheComponent(Navbar, 'common.navbar', props => {
-    const { config, helper, page } = props;
-    const { url_for, _p, __ } = helper;
-    const { logo, title, navbar, widgets, search } = config;
+    const {config, helper, page} = props;
+    const {url_for, _p, __} = helper;
+    const {logo, title, navbar, widgets, search} = config;
 
     const hasTocWidget = Array.isArray(widgets) && widgets.find(widget => widget.type === 'toc');
     const showToc = (config.toc === true || page.toc) && hasTocWidget && ['page', 'post'].includes(page.layout);
@@ -91,23 +96,23 @@ module.exports = cacheComponent(Navbar, 'common.navbar', props => {
     if (navbar && navbar.menu) {
         const pageUrl = typeof page.path !== 'undefined' ? url_for(page.path) : '';
         Object.keys(navbar.menu).forEach(name => {
-			const content = navbar.menu[name];
-			const menuItem = {};
-             if (typeof content !== 'string') {
-				var first = true;
-				var murl = '';
-				var mactive = false;
-                Object.keys(content).forEach(itname =>{
-					const url = url_for(content[itname]);
-					const active = isSameLink(url, pageUrl);
-					menuItem[itname] = {url,active};	
-					if(first){
-						murl = url;
-						mactive = active;
-						first = false;
-					}
-				});
-				menu[name] = {murl, mactive,menuItem};
+            const content = navbar.menu[name];
+            const menuItem = {};
+            if (typeof content !== 'string') {
+                var first = true;
+                var murl = '';
+                var mactive = false;
+                Object.keys(content).forEach(itname => {
+                    const url = url_for(content[itname]);
+                    const active = isSameLink(url, pageUrl);
+                    menuItem[itname] = {url, active};
+                    if (first) {
+                        murl = url;
+                        mactive = active;
+                        first = false;
+                    }
+                });
+                menu[name] = {murl, mactive, menuItem};
             } else {
                 const url = url_for(content);
                 const active = isSameLink(url, pageUrl);
@@ -120,7 +125,7 @@ module.exports = cacheComponent(Navbar, 'common.navbar', props => {
     if (navbar && navbar.links) {
         Object.keys(navbar.links).forEach(name => {
             const link = navbar.links[name];
-            links[name] = {	
+            links[name] = {
                 url: url_for(typeof link === 'string' ? link : link.url),
                 icon: link.icon
             };
